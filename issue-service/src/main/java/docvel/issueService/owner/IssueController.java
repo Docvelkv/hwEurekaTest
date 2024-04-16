@@ -35,7 +35,7 @@ public class IssueController {
 
     @GetMapping("bookTitle/{bookTitle}")
     public ResponseEntity<List<Issue>> showIssuesByBookTitle(@PathVariable String bookTitle){
-        return ResponseEntity.ok().body(service.showIssueByBookTitle(bookTitle));
+        return ResponseEntity.ok().body(service.showIssuesByBookTitle(bookTitle));
     }
 
     @PostMapping("{readerId}/{bookId}")

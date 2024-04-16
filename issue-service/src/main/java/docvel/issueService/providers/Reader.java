@@ -1,10 +1,14 @@
 package docvel.issueService.providers;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 
 @Data
-public class Reader {
+@NoArgsConstructor
+public class Reader implements Serializable {
 
     private long id;
 

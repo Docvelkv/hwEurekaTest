@@ -62,27 +62,21 @@ public class IssueService {
     }
 
     public List<Issue> showIssueByReaderName(String readerName){
-        if(repository.findIssueByReaderName(readerName).isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    String.format("Reader named %s has no records", readerName));
-        }
-        return repository.findIssueByReaderName(readerName);
+        return repository.findAll().stream()
+                .filter(issue -> issue.getReader().getName().contains(readerName))
+                .toList();
     }
 
     public List<Issue> showIssueByBookAuthor(String author){
-        if(repository.findIssuesByBookAuthor(author).isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    String.format("Books by author: %s - not issued", author));
-        }
-        return repository.findIssuesByBookAuthor(author);
+        return repository.findAll().stream()
+                .filter(issue -> issue.getBook().getAuthor().contains(author))
+                .toList();
     }
 
-    public List<Issue> showIssueByBookTitle(String title){
-        if(repository.findIssuesByBookTitle(title).isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    String.format("Book %s - not issued", title));
-        }
-        return repository.findIssuesByBookTitle(title);
+    public List<Issue> showIssuesByBookTitle(String title){
+        return repository.findAll().stream()
+                .filter(issue -> issue.getBook().getTitle().contains(title))
+                .toList();
     }
 
     public List<Issue> showAllIssues(){
