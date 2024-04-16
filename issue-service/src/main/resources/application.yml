@@ -1,0 +1,38 @@
+server:
+  port: 5553
+  error:
+    include-message: ALWAYS
+
+spring:
+  application:
+    name: issue-service
+    variable:
+      maxAllowedBooks: 1
+  main:
+    banner-mode: off
+  datasource:
+    url: jdbc:mysql://localhost:3306/ms_library?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: 31031973
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    open-in-view: false
+    hibernate:
+      ddl-auto: create-drop
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:5550/eureka
+
+management:
+  info:
+    env:
+      enable: true
+  endpoints:
+    web:
+      exposure:
+        include: beans
