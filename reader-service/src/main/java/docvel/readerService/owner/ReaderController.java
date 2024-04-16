@@ -69,6 +69,11 @@ public class ReaderController {
     public ResponseEntity<List<Book>> showBookByAuthor(@PathVariable String author){
         return  ResponseEntity.ok().body(booksProvider.showBookByAuthor(author));
     }
+
+    @GetMapping("booksByTitle/{title}")
+    public ResponseEntity<Book> showBookByTitle(@PathVariable String title){
+        return ResponseEntity.ok().body(booksProvider.showBookByTitle(title));
+    }
     //endregion
 
     //region Issues

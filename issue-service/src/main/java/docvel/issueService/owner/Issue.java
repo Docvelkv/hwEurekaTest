@@ -4,8 +4,7 @@ import docvel.issueService.providers.Book;
 import docvel.issueService.providers.Reader;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.type.descriptor.jdbc.JsonJdbcType;
+import org.hibernate.annotations.Type;
 
 import java.time.LocalDate;
 
@@ -18,11 +17,9 @@ public class Issue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JdbcType(JsonJdbcType.class)
     @Column(name = "reader")
     private Reader reader;
 
-    @JdbcType(JsonJdbcType.class)
     @Column(name = "book")
     private Book book;
 
