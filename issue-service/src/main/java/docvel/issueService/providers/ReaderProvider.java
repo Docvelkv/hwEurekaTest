@@ -11,13 +11,14 @@ public class ReaderProvider {
 
     public ReaderProvider(ReactorLoadBalancerExchangeFilterFunction loadBalancer) {
         webClient = WebClient.builder()
+                .baseUrl("http://reader-service")
                 .filter(loadBalancer)
                 .build();
     }
 
     public Reader findReaderById(long readerId){
         return webClient.get()
-                .uri("http://reader-service/readers/{readerId}", readerId)
+                .uri("/readers/{readerId}", readerId)
                 .retrieve()
                 .bodyToMono(Reader.class)
                 .block();

@@ -1,10 +1,12 @@
-package docvel.readerService.owner;
+package docvel.readerServiceTest.owner;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "readers")
 public class Reader {
 
@@ -14,4 +16,8 @@ public class Reader {
 
     @Column(name = "name")
     private String name;
+
+    public Reader(String name) {
+        this.name = name;
+    }
 }

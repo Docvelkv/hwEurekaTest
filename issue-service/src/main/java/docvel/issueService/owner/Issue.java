@@ -7,6 +7,7 @@ import lombok.Data;
 import org.hibernate.annotations.Type;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data

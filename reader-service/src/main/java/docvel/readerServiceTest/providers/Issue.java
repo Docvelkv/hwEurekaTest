@@ -1,12 +1,13 @@
-package docvel.readerService.providers;
+package docvel.readerServiceTest.providers;
 
-import docvel.readerService.owner.Reader;
+import docvel.readerServiceTest.owner.Reader;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
-public class Issue {
+public class Issue implements Serializable {
 
     private long id;
 

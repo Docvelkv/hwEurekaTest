@@ -14,11 +14,26 @@ public class BookService {
     private final BooksRepo books;
     private final BookProperties bookProperties;
 
+    //region Private Methods
     private void noBookById(long id){
         throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                 String.format(bookProperties.getNoBookById(), id));
     }
 
+    private List<Book> findByAuthor(String author){
+        return showAllBooks().stream()
+                .filter(book -> book.getAuthor().contains(author))
+                .toList();
+    }
+
+    private List<Book> findByTitle(String title){
+        return showAllBooks().stream()
+                .filter(book -> book.getTitle().contains(title))
+                .toList();
+    }
+    //endregion
+
+    //region CRUD
     public List<Book> showAllBooks(){
         return books.findAll();
     }
@@ -28,28 +43,28 @@ public class BookService {
         return books.findById(bookId).get();
     }
 
-    public Book showBookByTitle(String title){
-        if(books.findByTitle(title).isEmpty()){
+    public List<Book> showBookByTitle(String title){
+        if(findByTitle(title).isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("Book title %s not found", title));
         }
-        return books.findByTitle(title).get();
+        return findByTitle(title);
     }
 
     public List<Book> showBookByAuthor(String author){
-        if(books.findByAuthor(author).isEmpty()) {
+        if(findByAuthor(author).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("No books found by author %s", author));
         }
-        return books.findByAuthor(author);
+        return findByAuthor(author);
     }
 
-    public Book createNewBook(Book book){
+    public Book createBook(Book book){
         return books.save(book);
     }
 
     public Book updateBook(long bookId, Book newBook){
-        if(books.findById(bookId).isPresent()) noBookById(bookId);
+        if(books.findById(bookId).isEmpty()) noBookById(bookId);
 
         Book book = books.findById(bookId).get();
         book.setAuthor(newBook.getAuthor());
@@ -61,4 +76,5 @@ public class BookService {
         if (books.findById(bookId).isEmpty()) noBookById(bookId);
         books.deleteById(bookId);
     }
+    //endregion
 }

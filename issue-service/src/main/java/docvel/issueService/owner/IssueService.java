@@ -27,7 +27,7 @@ public class IssueService {
                 .size() > properties.getMaxAllowedBooks();
     }
 
-    public Issue createNewIssue(long readerId, long bookId) {
+    public Issue createIssue(long readerId, long bookId) {
         if(readerProvider.findReaderById(readerId) == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("Читатель с id %d не найден", readerId));
@@ -49,7 +49,7 @@ public class IssueService {
         issue.setReader(readerProvider.findReaderById(readerId));
         issue.setBook(bookProvider.findBookById(bookId));
         issue.setDateOfIssue(LocalDate.now());
-        issue.setDateOfReturn(null);
+
         return repository.save(issue);
     }
 
@@ -95,6 +95,6 @@ public class IssueService {
         }
         Issue issue = repository.findById(issueId).get();
         issue.setDateOfReturn(LocalDate.now());
-        return issue;
+        return repository.save(issue);
     }
 }
