@@ -1,8 +1,7 @@
 rootProject.name = 'hwEurekaTest'
 include 'discover_service'
 include 'book-service'
-include 'writer-service'
 include 'reader-service'
 include 'issue-service'
-include 'reader-service'
+
 
