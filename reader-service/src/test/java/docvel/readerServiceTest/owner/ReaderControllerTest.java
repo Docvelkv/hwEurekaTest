@@ -37,6 +37,7 @@ class ReaderControllerTest{
                 .returnResult()
                 .getResponseBody();
 
+        assert readersFromController != null;
         assertEquals(readersFromRepo.size(), readersFromController.size());
         for(Reader readerFromController : readersFromController) {
             boolean resultTest = readersFromRepo.stream()
@@ -59,6 +60,7 @@ class ReaderControllerTest{
                 .returnResult()
                 .getResponseBody();
         System.out.println(createdReader);
+        assert createdReader != null;
         assertEquals(createdReader.getName(), newReader.getName());
     }
 
@@ -92,6 +94,7 @@ class ReaderControllerTest{
                 .returnResult()
                 .getResponseBody();
         System.out.println(updatedReader);
+        assert updatedReader != null;
         assertEquals(updatedReader.getId(), randomId);
         assertEquals(updatedReader.getName(), newReader.getName());
     }
@@ -113,6 +116,7 @@ class ReaderControllerTest{
                 .returnResult()
                 .getResponseBody();
         System.out.println(createdBook);
+        assert createdBook != null;
         assertEquals(createdBook.getAuthor(), author);
         assertEquals(createdBook.getTitle(), title);
     }
