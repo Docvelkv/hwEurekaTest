@@ -1,10 +1,9 @@
 package docvel.readerServiceTest.owner;
 
 import docvel.readerServiceTest.providers.Book;
+import docvel.readerServiceTest.providers.Issue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.cassandra.AutoConfigureDataCassandra;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -97,7 +96,7 @@ class ReaderControllerTest{
         assertEquals(updatedReader.getName(), newReader.getName());
     }
 
-    // интеграционный тест
+    // region Интеграционные тесты
     @Test
     void createBook() {
         String author = "Грин Александр", title = "Алые паруса";
@@ -117,4 +116,30 @@ class ReaderControllerTest{
         assertEquals(createdBook.getAuthor(), author);
         assertEquals(createdBook.getTitle(), title);
     }
+
+    @Test
+    void createIssue() {
+        Long randReaderId = new Random().nextLong(1, readers.findAll().size() + 1);
+        int sizeOfListBooks = Objects.requireNonNull(webTestClient.get()
+                        .uri("http://localhost:5551/books")
+                        .exchange()
+                        .expectStatus().isOk()
+                        .expectBodyList(Book.class)
+                        .returnResult()
+                        .getResponseBody())
+                .size();
+        Long randBookId = new Random().nextLong(1, sizeOfListBooks + 1);
+        Issue addedIssue = webTestClient.post()
+                .uri("http://localhost:5553/issues/create/{readerId}/{bookId}", randReaderId, randBookId)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Issue.class)
+                .returnResult()
+                .getResponseBody();
+        System.out.println(addedIssue);
+        assert addedIssue != null;
+        assertEquals(addedIssue.getReader().getId(), randReaderId);
+        assertEquals(addedIssue.getBook().getId(), randBookId);
+    }
+    //endregion
 }
