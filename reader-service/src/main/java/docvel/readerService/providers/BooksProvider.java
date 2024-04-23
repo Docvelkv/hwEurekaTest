@@ -1,4 +1,4 @@
-package docvel.readerServiceTest.providers;
+package docvel.readerService.providers;
 
 import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.core.ParameterizedTypeReference;

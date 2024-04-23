@@ -1,9 +1,9 @@
-package docvel.readerServiceTest.owner;
+package docvel.readerService.owner;
 
-import docvel.readerServiceTest.providers.Book;
-import docvel.readerServiceTest.providers.Issue;
-import jakarta.annotation.PostConstruct;
+import docvel.readerService.providers.Book;
+import docvel.readerService.providers.Issue;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,22 +11,21 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+
 @RequestMapping("readers")
 public class ReaderController {
 
     private final ReaderService service;
 
-    @PostConstruct
-    public void fillingReaders(){
-        service.createNewReader(new Reader("Пётр"));
-        service.createNewReader(new Reader("Иван"));
-        service.createNewReader(new Reader("Константин"));
-        service.createNewReader(new Reader("Максим"));
-        service.createNewReader(new Reader("Елена"));
-        service.createNewReader(new Reader("Мария"));
+    //region Readers
+
+    @PostMapping("create")
+    public ResponseEntity<Reader> createNewReader(@RequestBody Reader reader){
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(service.createNewReader(reader));
     }
 
-    //region Readers
     @GetMapping
     public ResponseEntity<List<Reader>> showAllReader(){
         return ResponseEntity.ok().body(service.showAllReader());
@@ -40,11 +39,6 @@ public class ReaderController {
     @GetMapping("name/{name}")
     public ResponseEntity<Reader> showReaderByName(@PathVariable String name){
         return ResponseEntity.ok().body(service.showReaderByName(name));
-    }
-
-    @PostMapping("createNewReader")
-    public ResponseEntity<Reader> createNewReader(@RequestBody Reader reader){
-        return ResponseEntity.ok().body(service.createNewReader(reader));
     }
 
     @DeleteMapping("delete/{readerId}")
@@ -61,6 +55,12 @@ public class ReaderController {
     //endregion
 
     //region Books
+
+    @PostMapping("books/create")
+    public ResponseEntity<Book> createBook(@RequestBody Book book){
+        return ResponseEntity.ok().body(service.createNewBook(book));
+    }
+
     @GetMapping("books")
     public ResponseEntity<List<Book>> showAllBooks(){
         return ResponseEntity.ok().body(service.showAllBooks());
@@ -81,9 +81,10 @@ public class ReaderController {
         return ResponseEntity.ok().body(service.showBookByTitle(title));
     }
 
-    @PostMapping("books/createBook")
-    public ResponseEntity<Book> createBook(@RequestBody Book book){
-        return ResponseEntity.ok().body(service.createNewBook(book));
+    @PutMapping("books/update/{bookId}")
+    public ResponseEntity<Book> updateBook(@PathVariable long bookId,
+                                           @RequestBody Book book){
+        return ResponseEntity.ok().body(service.updateBook(bookId, book));
     }
 
     @DeleteMapping("books/delete/{bookId}")
@@ -91,19 +92,13 @@ public class ReaderController {
         service.deleteBook(bookId);
         return ResponseEntity.ok().build();
     }
-
-    @PutMapping("books/update/{bookId}")
-    public ResponseEntity<Book> updateBook(@PathVariable long bookId,
-                                           @RequestBody Book book){
-        return ResponseEntity.ok().body(service.updateBook(bookId, book));
-    }
     //endregion
 
     //region Issues
 
     @PostMapping("issues/create/{readerId}/{bookId}")
     public ResponseEntity<Issue> createIssue(@PathVariable long readerId,
-                                             @PathVariable long bookId){
+                                             @PathVariable long bookId)throws RuntimeException{
         return ResponseEntity.ok().body(service.createIssue(readerId, bookId));
     }
 

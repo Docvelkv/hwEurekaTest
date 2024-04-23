@@ -1,9 +1,9 @@
-package docvel.readerServiceTest.owner;
+package docvel.readerService.owner;
 
-import docvel.readerServiceTest.providers.Book;
-import docvel.readerServiceTest.providers.BooksProvider;
-import docvel.readerServiceTest.providers.Issue;
-import docvel.readerServiceTest.providers.IssueProvider;
+import docvel.readerService.providers.Book;
+import docvel.readerService.providers.BooksProvider;
+import docvel.readerService.providers.Issue;
+import docvel.readerService.providers.IssueProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -90,7 +90,7 @@ public class ReaderService {
     //endregion
 
     //region Issue
-    public Issue createIssue(long readerId, long bookId){
+    public Issue createIssue(long readerId, long bookId) throws ResponseStatusException{
         return issuesProvider.createIssue(readerId, bookId);
     }
 

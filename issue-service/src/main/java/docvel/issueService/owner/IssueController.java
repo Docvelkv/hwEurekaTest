@@ -1,7 +1,7 @@
 package docvel.issueService.owner;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +13,6 @@ import java.util.List;
 public class IssueController {
 
     private final IssueService service;
-
-    @PostConstruct
-    public void fillingIssues(){
-        service.createIssue(1, 2);
-        service.createIssue(2, 3);
-        service.createIssue(3, 7);
-        service.createIssue(4, 3);
-        service.createIssue(5, 1);
-        service.createIssue(6, 10);
-    }
 
     @GetMapping
     public ResponseEntity<List<Issue>> showAllIssues(){
@@ -52,7 +42,7 @@ public class IssueController {
     @PostMapping("create/{readerId}/{bookId}")
     public ResponseEntity<Issue> createIssue(@PathVariable long readerId,
                                              @PathVariable long bookId){
-        return ResponseEntity.ok().body(service.createIssue(readerId, bookId));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createIssue(readerId, bookId));
     }
 
     @PutMapping("returnBook/{issueId}")

@@ -1,7 +1,9 @@
-package docvel.readerServiceTest.owner;
+package docvel.readerService.owner;
 
-import docvel.readerServiceTest.providers.Book;
-import docvel.readerServiceTest.providers.Issue;
+import docvel.readerService.owner.Reader;
+import docvel.readerService.owner.ReadersRepo;
+import docvel.readerService.providers.Book;
+import docvel.readerService.providers.Issue;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -102,10 +104,7 @@ class ReaderControllerTest{
     // region Интеграционные тесты
     @Test
     void createBook() {
-        String author = "Грин Александр", title = "Алые паруса";
-        Book newBook = new Book();
-        newBook.setAuthor(author);
-        newBook.setTitle(title);
+        Book newBook = new Book("Грин Александр","Алые паруса");
         Book createdBook = webTestClient.post()
                 .uri("http://localhost:5551/books/createBook")
                 .bodyValue(newBook)
@@ -117,8 +116,8 @@ class ReaderControllerTest{
                 .getResponseBody();
         System.out.println(createdBook);
         assert createdBook != null;
-        assertEquals(createdBook.getAuthor(), author);
-        assertEquals(createdBook.getTitle(), title);
+        assertEquals(createdBook.getAuthor(), newBook.getAuthor());
+        assertEquals(createdBook.getTitle(), newBook.getTitle());
     }
 
     @Test

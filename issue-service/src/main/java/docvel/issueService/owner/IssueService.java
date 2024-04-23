@@ -27,7 +27,7 @@ public class IssueService {
                 .size() > properties.getMaxAllowedBooks();
     }
 
-    public Issue createIssue(long readerId, long bookId) {
+    public Issue createIssue(long readerId, long bookId) throws ResponseStatusException{
         if(readerProvider.findReaderById(readerId) == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("Читатель с id %d не найден", readerId));

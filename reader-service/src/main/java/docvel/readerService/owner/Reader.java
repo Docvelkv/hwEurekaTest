@@ -1,4 +1,4 @@
-package docvel.readerServiceTest.owner;
+package docvel.readerService.owner;
 
 import jakarta.persistence.*;
 import lombok.Data;

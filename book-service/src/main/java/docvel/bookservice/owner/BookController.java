@@ -1,6 +1,5 @@
 package docvel.bookservice.owner;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,21 +12,6 @@ import java.util.List;
 public class BookController {
 
     private final BookService service;
-
-    @PostConstruct
-    public void fillingLibrary(){
-        service.createBook(new Book("Блок Александр", "Двенадцать"));
-        service.createBook(new Book("Гоголь Николай", "Мёртвые души"));
-        service.createBook(new Book("Айтматов Чингиз", "Плаха"));
-        service.createBook(new Book("Бунин Иван", "Тёмные аллеи"));
-        service.createBook(new Book("Маркес Габриэль Гарсиа", "Сто лет одиночества"));
-        service.createBook(new Book("Некрасов Николай", "Кому на Руси жить хорошо"));
-        service.createBook(new Book("Пушкин Александр", "Евгений Онегин"));
-        service.createBook(new Book("Антуан де Сент-Экзюпери", "Маленький принц"));
-        service.createBook(new Book("Твардовский Александр", "Василий Тёркин"));
-        service.createBook(new Book("Чехов Антон", "Вишнёвый сад"));
-        service.createBook(new Book("Гоголь Николай", "Вечера на хуторе близ Диканьки"));
-    }
 
     @GetMapping
     public ResponseEntity<List<Book>> showAllBooks(){

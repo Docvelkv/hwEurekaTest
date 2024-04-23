@@ -1,4 +1,4 @@
-package docvel.readerServiceTest.owner;
+package docvel.readerService.owner;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

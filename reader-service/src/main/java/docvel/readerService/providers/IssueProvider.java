@@ -1,10 +1,11 @@
-package docvel.readerServiceTest.providers;
+package docvel.readerService.providers;
 
 import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class IssueProvider {
                 .block();
     }
 
-    public Issue createIssue(long readerId, long bookId){
+    public Issue createIssue(long readerId, long bookId) throws ResponseStatusException {
         return webClient.post()
                 .uri("/create/{readerId}/{bookId}", readerId, bookId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -70,11 +71,17 @@ public class IssueProvider {
     }
 
     public Issue returnBook(long issueId){
-        return webClient.put()
-                .uri("/returnBook/{issueId}", issueId)
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(Issue.class)
-                .block();
+        Issue issue = new Issue();
+        try {
+            issue = webClient.put()
+                    .uri("/returnBook/{issueId}", issueId)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .retrieve()
+                    .bodyToMono(Issue.class)
+                    .block();
+        }catch (ResponseStatusException e){
+            System.out.println(e.getMessage());
+        }
+        return issue;
     }
 }

@@ -30,7 +30,14 @@ management:
   info:
     env:
       enable: true
+  endpoint:
+    env:
+      show-values: ALWAYS
   endpoints:
     web:
       exposure:
-        include: beans
+        include: env, prometheus, info, health, metric
+  metrics:
+    export:
+      prometheus:
+        enable: true

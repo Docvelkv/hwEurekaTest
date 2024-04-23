@@ -1,6 +1,6 @@
-package docvel.readerServiceTest.providers;
+package docvel.readerService.providers;
 
-import docvel.readerServiceTest.owner.Reader;
+import docvel.readerService.owner.Reader;
 import lombok.Data;
 
 import java.io.Serializable;
