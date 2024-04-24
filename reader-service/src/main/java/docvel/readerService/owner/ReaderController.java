@@ -1,12 +1,15 @@
 package docvel.readerService.owner;
 
+import docvel.readerService.metrix.Metrics;
 import docvel.readerService.providers.Book;
 import docvel.readerService.providers.Issue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -99,7 +102,13 @@ public class ReaderController {
     @PostMapping("issues/create/{readerId}/{bookId}")
     public ResponseEntity<Issue> createIssue(@PathVariable long readerId,
                                              @PathVariable long bookId)throws RuntimeException{
-        return ResponseEntity.ok().body(service.createIssue(readerId, bookId));
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .buildAndExpand(service.createIssue(readerId, bookId).getId())
+                .toUri();
+        ResponseEntity<Issue> response = ResponseEntity.created(location).body(service.createIssue(readerId, bookId));
+        Metrics.countingTheNumberOfRequests(response.getStatusCode());
+        return response;
     }
 
     @GetMapping("issues")

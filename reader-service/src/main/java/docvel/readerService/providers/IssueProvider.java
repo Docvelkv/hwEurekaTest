@@ -1,7 +1,10 @@
 package docvel.readerService.providers;
 
+import docvel.readerService.metrix.Metrics;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
